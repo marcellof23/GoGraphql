@@ -56,15 +56,15 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
-		Agama        func(childComplexity int) int
-		Alamat       func(childComplexity int) int
-		CreatedAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		JenisKelamin func(childComplexity int) int
-		NIK          func(childComplexity int) int
-		Nama         func(childComplexity int) int
-		TanggalLahir func(childComplexity int) int
-		UpdatedAt    func(childComplexity int) int
+		Agama         func(childComplexity int) int
+		Alamat        func(childComplexity int) int
+		Created_at    func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Jenis_kelamin func(childComplexity int) int
+		NIK           func(childComplexity int) int
+		Nama          func(childComplexity int) int
+		Tanggal_lahir func(childComplexity int) int
+		Updated_at    func(childComplexity int) int
 	}
 }
 
@@ -149,12 +149,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Alamat(childComplexity), true
 
-	case "User.createdAt":
-		if e.complexity.User.CreatedAt == nil {
+	case "User.created_at":
+		if e.complexity.User.Created_at == nil {
 			break
 		}
 
-		return e.complexity.User.CreatedAt(childComplexity), true
+		return e.complexity.User.Created_at(childComplexity), true
 
 	case "User.id":
 		if e.complexity.User.ID == nil {
@@ -163,12 +163,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.ID(childComplexity), true
 
-	case "User.jenisKelamin":
-		if e.complexity.User.JenisKelamin == nil {
+	case "User.jenis_kelamin":
+		if e.complexity.User.Jenis_kelamin == nil {
 			break
 		}
 
-		return e.complexity.User.JenisKelamin(childComplexity), true
+		return e.complexity.User.Jenis_kelamin(childComplexity), true
 
 	case "User.nik":
 		if e.complexity.User.NIK == nil {
@@ -184,19 +184,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Nama(childComplexity), true
 
-	case "User.tanggalLahir":
-		if e.complexity.User.TanggalLahir == nil {
+	case "User.tanggal_lahir":
+		if e.complexity.User.Tanggal_lahir == nil {
 			break
 		}
 
-		return e.complexity.User.TanggalLahir(childComplexity), true
+		return e.complexity.User.Tanggal_lahir(childComplexity), true
 
-	case "User.updatedAt":
-		if e.complexity.User.UpdatedAt == nil {
+	case "User.updated_at":
+		if e.complexity.User.Updated_at == nil {
 			break
 		}
 
-		return e.complexity.User.UpdatedAt(childComplexity), true
+		return e.complexity.User.Updated_at(childComplexity), true
 
 	}
 	return 0, false
@@ -270,11 +270,11 @@ type User {
 	nik: String!
 	nama: String!
 	alamat: String!
-	jenisKelamin : String!
-  tanggalLahir: String!
-	agama : String!
-  createdAt: Time
-	updatedAt: Time
+	jenis_kelamin: String!
+  tanggal_lahir: String!
+	agama: String!
+  created_at: Time
+	updated_at: Time
 }
 
 type Query {
@@ -286,11 +286,10 @@ input NewUser{
 	nik: String!
 	nama: String!
 	alamat: String!
-	jenisKelamin: String!
-  tanggalLahir: String!
+	jenis_kelamin: String!
+  tanggal_lahir: String!
 	agama: String!
 }
-
 
 type Mutation{
 	createUser(input: NewUser): User!
@@ -783,7 +782,7 @@ func (ec *executionContext) _User_alamat(ctx context.Context, field graphql.Coll
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _User_jenisKelamin(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_jenis_kelamin(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -801,7 +800,7 @@ func (ec *executionContext) _User_jenisKelamin(ctx context.Context, field graphq
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.JenisKelamin, nil
+		return obj.Jenis_kelamin, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -818,7 +817,7 @@ func (ec *executionContext) _User_jenisKelamin(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _User_tanggalLahir(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_tanggal_lahir(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -836,7 +835,7 @@ func (ec *executionContext) _User_tanggalLahir(ctx context.Context, field graphq
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.TanggalLahir, nil
+		return obj.Tanggal_lahir, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -888,7 +887,7 @@ func (ec *executionContext) _User_agama(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _User_createdAt(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_created_at(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -906,7 +905,7 @@ func (ec *executionContext) _User_createdAt(ctx context.Context, field graphql.C
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
+		return obj.Created_at, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -920,7 +919,7 @@ func (ec *executionContext) _User_createdAt(ctx context.Context, field graphql.C
 	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _User_updatedAt(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_updated_at(ctx context.Context, field graphql.CollectedField, obj *models.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -938,7 +937,7 @@ func (ec *executionContext) _User_updatedAt(ctx context.Context, field graphql.C
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
+		return obj.Updated_at, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2069,18 +2068,18 @@ func (ec *executionContext) unmarshalInputNewUser(ctx context.Context, obj inter
 			if err != nil {
 				return it, err
 			}
-		case "jenisKelamin":
+		case "jenis_kelamin":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jenisKelamin"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("jenis_kelamin"))
 			it.JenisKelamin, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
-		case "tanggalLahir":
+		case "tanggal_lahir":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tanggalLahir"))
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tanggal_lahir"))
 			it.TanggalLahir, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -2223,13 +2222,13 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "jenisKelamin":
-			out.Values[i] = ec._User_jenisKelamin(ctx, field, obj)
+		case "jenis_kelamin":
+			out.Values[i] = ec._User_jenis_kelamin(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "tanggalLahir":
-			out.Values[i] = ec._User_tanggalLahir(ctx, field, obj)
+		case "tanggal_lahir":
+			out.Values[i] = ec._User_tanggal_lahir(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -2238,10 +2237,10 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "createdAt":
-			out.Values[i] = ec._User_createdAt(ctx, field, obj)
-		case "updatedAt":
-			out.Values[i] = ec._User_updatedAt(ctx, field, obj)
+		case "created_at":
+			out.Values[i] = ec._User_created_at(ctx, field, obj)
+		case "updated_at":
+			out.Values[i] = ec._User_updated_at(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

@@ -7,7 +7,7 @@ type NewUser struct {
 	Nik          string `json:"nik"`
 	Nama         string `json:"nama"`
 	Alamat       string `json:"alamat"`
-	JenisKelamin string `json:"jenisKelamin"`
-	TanggalLahir string `json:"tanggalLahir"`
+	JenisKelamin string `json:"jenis_kelamin"`
+	TanggalLahir string `json:"tanggal_lahir"`
 	Agama        string `json:"agama"`
 }

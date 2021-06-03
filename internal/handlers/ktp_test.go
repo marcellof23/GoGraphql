@@ -5,9 +5,13 @@ import (
 	"testing"
 
 	"github.com/machinebox/graphql"
+	"github.com/matryer/is"
 )
 
+// TestCreateUser create dummy user testing
 func TestCreateUser(t *testing.T) {
+	is := is.New(t)
+
 	var client = graphql.NewClient("http://localhost:8080/query")
 
 	var req = graphql.NewRequest(`
@@ -16,19 +20,21 @@ func TestCreateUser(t *testing.T) {
 					nik:           "135",
 					nama:          "ronda",
 					alamat:        "taman anggrek",
-					jenisKelamin:  "male",
-					tanggalLahir:  "2011-01-02 15:04:05",
+					jenis_kelamin: "male",
+					tanggal_lahir:  "2011-01-02 15:04:05",
 					agama:         "buddha"
 				}){
-					nik
+				nik
 				nama
 				alamat
-				jenisKelamin
-				tanggalLahir
+				jenis_kelamin
+				tanggal_lahir
 				agama
 				}
 			}
 		`)
+
+	is.True(req != nil)
 
 	ctx := context.Background()
 
@@ -39,6 +45,7 @@ func TestCreateUser(t *testing.T) {
 
 }
 
+// TestUpdateUser update dummy user testing
 func TestUpdateUser(t *testing.T) {
 	var client = graphql.NewClient("http://localhost:8080/query")
 
@@ -48,8 +55,8 @@ func TestUpdateUser(t *testing.T) {
 				nik:           "13545",
 				nama:          "asdfronda",
 				alamat:        "taman anggrek",
-				jenisKelamin:  "male",
-				tanggalLahir:  "2011-01-02 15:04:05",
+				jenis_kelamin:  "male",
+				tanggal_lahir:  "2011-01-02 15:04:05",
 				agama:         "buddha"
 			}){
 				nik
@@ -70,6 +77,7 @@ func TestUpdateUser(t *testing.T) {
 	}
 }
 
+// TestDeleteUser delete dummy user testing
 func TestDeleteUser(t *testing.T) {
 	var client = graphql.NewClient("http://localhost:8080/query")
 

@@ -3,15 +3,15 @@ package models
 import "time"
 
 type User struct {
-	ID           int64
-	Nama         string
-	NIK          string
-	JenisKelamin string
-	TanggalLahir string
-	Alamat       string
-	Agama        string
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
+	ID            int64
+	Nama          string
+	NIK           string
+	Jenis_kelamin string
+	Tanggal_lahir string
+	Alamat        string
+	Agama         string
+	Created_at    time.Time
+	Updated_at    time.Time
 }
 
 // Tablename is name of the table

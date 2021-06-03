@@ -6,11 +6,11 @@ type User {
 	nik: String!
 	nama: String!
 	alamat: String!
-	jenisKelamin : String!
-  	tanggalLahir: String!
+	jenis_kelamin : String!
+    tanggal_lahir: String!
 	agama : String!
-  	createdAt: Time
-	updatedAt: Time
+    created_at: Time
+	updated_at: Time
 }
 
 type Query {
@@ -22,11 +22,10 @@ input NewUser{
 	nik: String!
 	nama: String!
 	alamat: String!
-	jenisKelamin: String!
-  	tanggalLahir: String!
+	jenis_kelamin: String!
+    tanggal_lahir: String!
 	agama: String!
 }
-
 
 type Mutation{
 	createUser(input: NewUser): User!
