@@ -1,47 +1,85 @@
 package handlers
 
-// import (
-// 	"context"
-// 	"io"
-// 	"net/http"
-// 	"net/http/httptest"
-// 	"testing"
-// 	"time"
+import (
+	"context"
+	"testing"
 
-// 	"github.com/matryer/is"
-// )
+	"github.com/machinebox/graphql"
+)
 
 // func TestCreateUser(t *testing.T) {
-// 	is := is.New(t)
+// 	var client = graphql.NewClient("http://localhost:8080/query")
 
-// 	var calls int
-// 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		calls++
-// 		query := r.FormValue("query")
-// 		is.Equal(query, "query {}")
-// 		is.Equal(r.FormValue("variables"), `{"username":"matryer"}`+"\n")
-// 		_, err := io.WriteString(w, `{"data":{"value":"some data"}}`)
-// 		is.NoErr(err)
-// 	}))
-// 	defer srv.Close()
-// 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-// 	defer cancel()
+// 	var req = graphql.NewRequest(`
+// 			mutation {
+// 				createUser(input : {
+// 					nik:           "135",
+// 					nama:          "ronda",
+// 					alamat:        "taman anggrek",
+// 					jenisKelamin:  "male",
+// 					tanggalLahir:  "2011-01-02 15:04:05",
+// 					agama:         "buddha"
+// 				}){
+// 					nama
+// 				}
+// 			}
+// 		`)
 
-// 	client := NewClient(srv.URL, UseMultipartForm())
+// 	ctx := context.Background()
 
-// 	req := NewRequest("query {}")
-// 	req.Var("username", "matryer")
-
-// 	// check variables
-// 	is.True(req != nil)
-// 	is.Equal(req.vars["username"], "matryer")
-
-// 	var resp struct {
-// 		Value string
+// 	var respData map[string]interface{}
+// 	if err := client.Run(ctx, req, &respData); err != nil {
+// 		t.Error(err)
 // 	}
-// 	err := client.Run(ctx, req, &resp)
-// 	is.NoErr(err)
-// 	is.Equal(calls, 1)
 
-// 	is.Equal(resp.Value, "some data")
+// }
+
+func UpdateUser(t *testing.T) {
+	var client = graphql.NewClient("http://localhost:8080/query")
+
+	var req = graphql.NewRequest(`
+		mutation {
+			updateUser(id : "2", input : {
+				nik:           "1354",
+				nama:          "asdfronda",
+				alamat:        "taman anggrek",
+				jenisKelamin:  "male",
+				tanggalLahir:  "2011-01-02 15:04:05",
+				agama:         "buddha"
+			}){
+				nik
+				nama
+				alamat
+				jenisKelamin
+				tanggalLahir
+				agama
+			}
+		}
+	`)
+
+	ctx := context.Background()
+
+	var respData map[string]interface{}
+	if err := client.Run(ctx, req, &respData); err != nil {
+		t.Error(err)
+	}
+}
+
+// func DeleteUser(t *testing.T) {
+// 	var client = graphql.NewClient("http://localhost:8080/query")
+
+// 	var req = graphql.NewRequest(`
+// 		mutation deleteUser {
+// 			deleteUser(id : "2")
+// 		} {
+// 			nama
+// 		}
+// 	`)
+
+// 	ctx := context.Background()
+
+// 	var respData map[string]interface{}
+// 	if err := client.Run(ctx, req, &respData); err != nil {
+// 		t.Error(err)
+// 	}
 // }
