@@ -1,0 +1,8 @@
+FROM mariadb:10.3
+
+ENV MYSQL_ROOT_PASSWORD="123123123"
+ENV MYSQL_DATABASE="ktp_db"
+ENV MYSQL_USER="mariadbuser"
+ENV MYSQL_PASSWORD="exam_engine_password"
+
+EXPOSE 3306

@@ -1,0 +1,35 @@
+scalar Time
+
+"Type for User"
+type User {
+	id : ID!
+	nik: String!
+	nama: String!
+	alamat: String!
+	jenisKelamin : String!
+  	tanggalLahir: String!
+	agama : String!
+  	createdAt: Time
+	updatedAt: Time
+}
+
+type Query {
+  user: [User!]!
+}
+
+"Input body for update and input user"
+input NewUser{
+	nik: String!
+	nama: String!
+	alamat: String!
+	jenisKelamin: String!
+  	tanggalLahir: String!
+	agama: String!
+}
+
+
+type Mutation{
+	createUser(input: NewUser): User!
+	updateUser(id: ID!, input: NewUser): User!
+	deleteUser(id: ID!): Boolean!
+}
