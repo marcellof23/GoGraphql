@@ -1,0 +1,20 @@
+version: '3'
+services:
+  ktp-app:
+    build: .
+    working_dir: /app
+    volumes: 
+      - ./config:/src/config
+    links:
+      - 'mariadb-ktp-dbs'
+    networks:  
+      - testing
+  mariadb-ktp-dbs:
+    image: mariadb:10.3
+    ports:
+      - 5000:3306
+    networks: 
+      - testing
+networks: 
+  testing:
+    driver: bridge

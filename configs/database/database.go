@@ -15,13 +15,13 @@ var (
 )
 
 func ConnectDB() error {
-	h := "0.0.0.0"
+	//h := "0.0.0.0"
 	u := "mariadbuser"
 	pwd := "exam_engine_password"
-	p := "5000"
-	d := "ktp_db"
+	//p := "5000"
+	d := "ktp-db"
 
-	dsn := u + ":" + pwd + "@tcp(" + h + ":" + p + ")/" + d + "?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := u + ":" + pwd + "@tcp(" + "ktp-database" + ")/" + d + "?charset=utf8mb4&parseTime=True&loc=Local"
 
 	fmt.Println(dsn)
 

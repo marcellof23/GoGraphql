@@ -1,1 +1,1 @@
-migrate -path ../migrations -database "mysql://root:123123123@tcp(localhost:5000)/ktp_db" up
+migrate -path ../migrations -database "mysql://root:123123123@tcp(database)/ktp-db" up

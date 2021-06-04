@@ -1,21 +1,29 @@
-#!/bin/bash
-FROM golang:1.14.3-alpine as build
+FROM golang:1.16.4-alpine3.13
+RUN mkdir /app
 
-WORKDIR /src
+RUN apk add --no-cache git
 
-COPY . .
+# RUN go get -v -d github.com/golang-migrate/migrate/cli \
+#     && go get -v -d github.com/lib/pq
 
-RUN go build -o testing -v cmd/testing/main.go
-RUN chmod a+x testing
-
-FROM alpine as bin
-
-
-WORKDIR /src
+COPY . /app
+WORKDIR /app
 
 
-COPY --from=build /src/testing /src/
-RUN chmod a+x testing
 
-#Command to run the executable
-CMD ["./testing"]
+CMD ["go","run", "./server.go"]
+
+# FROM golang:1.14.6-alpine as builder
+# COPY go.mod go.sum /go/src/github.com/marcellof23/GoGraphql/
+# WORKDIR /go/src/github.com/marcellof23/GoGraphql/
+# RUN go mod download
+# COPY . /go/src/github.com/marcellof23/GoGraphql/
+# RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o build/GoGraphql github.com/marcellof23/GoGraphql
+
+# FROM alpine
+# RUN apk add --no-cache ca-certificates && update-ca-certificates
+# COPY --from=builder /go/src/github.com/marcellof23/GoGraphql/build/GoGraphql /usr/bin/GoGraphql
+# EXPOSE 8080 8080
+# # CMD ["ping","localhost"]
+# CMD ["/usr/bin/GoGraphql"]
+# ENTRYPOINT ["/usr/bin/GoGraphql"]

@@ -1,20 +1,54 @@
-version: '3'
+# version: "3"
+# services:
+#   database:
+#     image: mariadb:10.3
+#     env_file:
+#       - .env
+#     ports:
+#       - "5000:3306"
+#     networks:
+#       - backend
+#     volumes:
+#       - data:/var/lib/mysql/data
+#   server:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     env_file: 
+#       - .env
+#     depends_on:
+#       - database
+#     networks:
+#       - backend
+#     ports:
+#     - "8080:8080"
+# volumes:
+#   data:
+# networks:
+#   backend:
+#     driver: bridge
+version: "3"
 services:
-  ktp-app:
-    build: .
-    working_dir: /src
-    ports:
-      - 8080:8080
-    volumes: 
-      - ./config:/src/config
-    links:
-      - 'mariadb-ktp-dbs'
-    networks:  
-      - testing
-  mariadb-ktp-dbs:
+  db:
     image: mariadb:10.3
-    networks: 
-      - testing
-networks: 
-  testing:
-    driver: bridge
+    container_name: ktp-database
+    env_file:
+      - .env
+    ports:
+      - "5000:3306"
+    volumes:
+      - data:/var/lib/mysql/data
+  server:
+    container_name: ktp-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    depends_on:
+      - db
+    networks:
+      - default
+    ports:
+    - "8080:8080"
+volumes:
+  data:
