@@ -1,8 +1,21 @@
-FROM mariadb:10.3
+#!/bin/bash
+FROM golang:1.14.3-alpine as build
 
-ENV MYSQL_ROOT_PASSWORD="123123123"
-ENV MYSQL_DATABASE="ktp_db"
-ENV MYSQL_USER="mariadbuser"
-ENV MYSQL_PASSWORD="exam_engine_password"
+WORKDIR /src
 
-EXPOSE 3306
+COPY . .
+
+RUN go build -o testing -v cmd/testing/main.go
+RUN chmod a+x testing
+
+FROM alpine as bin
+
+
+WORKDIR /src
+
+
+COPY --from=build /src/testing /src/
+RUN chmod a+x testing
+
+#Command to run the executable
+CMD ["./testing"]
