@@ -1,0 +1,1 @@
+docker run -p 5000:3306 --name ktp-database -d mariadb_ktp

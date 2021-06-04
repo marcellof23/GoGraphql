@@ -1,0 +1,1 @@
+migrate -database mysql://root:123123123@/ktp-database -path ./migrations up

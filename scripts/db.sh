@@ -1,0 +1,1 @@
+docker exec -it ktp-database mysql -u root --password=123123123 
