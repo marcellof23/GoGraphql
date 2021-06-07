@@ -1,16 +1,5 @@
 version: "3"
 services:
-  db:
-    image: mariadb:10.3
-    container_name: ktp-database
-    env_file:
-      - .env
-    ports:
-      - "5000:3306"
-    networks:
-      - backend
-    volumes:
-      - data:/var/lib/mysql/data
   server:
     container_name: ktp-server
     build:
@@ -22,8 +11,25 @@ services:
     networks:
       - backend
     ports:
-    - "8080:8080"
-    
+    - "8082:8080"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  db:
+    image: mariadb:10.3
+    container_name: ktp-database
+    env_file:
+      - .env
+    ports:
+      - "3308:3306" 
+    restart: unless-stopped
+    networks:
+      - backend
+    volumes:
+      - data:/var/lib/mysql
 
 volumes:
   data:

@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/marcellof23/GoGraphql/graph/generated"
 	"github.com/marcellof23/GoGraphql/graph/model"
@@ -26,7 +25,7 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id int64) (bool, erro
 }
 
 func (r *queryResolver) User(ctx context.Context) ([]*models.User, error) {
-	panic(fmt.Errorf("not implemented"))
+	return handlers.GetAllUserHandler(ctx)
 }
 
 // Mutation returns generated.MutationResolver implementation.

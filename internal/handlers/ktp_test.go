@@ -17,8 +17,8 @@ func TestCreateUser(t *testing.T) {
 	var req = graphql.NewRequest(`
 			mutation {
 				createUser(input : {
-					nik:           "135",
-					nama:          "ronda",
+					nik:           "131125",
+					nama:          "aliando",
 					alamat:        "taman anggrek",
 					jenis_kelamin: "male",
 					tanggal_lahir:  "2011-01-02 15:04:05",
@@ -51,19 +51,19 @@ func TestUpdateUser(t *testing.T) {
 
 	var req = graphql.NewRequest(`
 		mutation {
-			updateUser(id : "2", input : {
-				nik:           "13545",
-				nama:          "asdfronda",
+			updateUser(id : "5", input : {
+				nik:           "1354521",
+				nama:          "wewe",
 				alamat:        "taman anggrek",
 				jenis_kelamin:  "male",
 				tanggal_lahir:  "2011-01-02 15:04:05",
-				agama:         "buddha"
+				agama:         "islam"
 			}){
 				nik
 				nama
 				alamat
-				jenisKelamin
-				tanggalLahir
+				jenis_kelamin
+				tanggal_lahir
 				agama
 			}
 		}

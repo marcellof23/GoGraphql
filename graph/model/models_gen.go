@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	"github.com/marcellof23/GoGraphql/internal/models"
+)
+
 // Input body for update and input user
 type NewUser struct {
 	Nik          string `json:"nik"`
@@ -10,4 +14,32 @@ type NewUser struct {
 	JenisKelamin string `json:"jenis_kelamin"`
 	TanggalLahir string `json:"tanggal_lahir"`
 	Agama        string `json:"agama"`
+}
+
+// Pagination is default input Pagination
+type Pagination struct {
+	First  int      `json:"first"`
+	Offset int      `json:"offset"`
+	After  *int64   `json:"after"`
+	Query  string   `json:"query"`
+	Sort   []string `json:"sort"`
+}
+
+// Object that is being paginated
+type PaginationEdge struct {
+	Node   *models.User `json:"node"`
+	Cursor int64        `json:"cursor"`
+}
+
+// Information about pagination
+type PaginationInfo struct {
+	EndCursor   int64 `json:"endCursor"`
+	HasNextPage bool  `json:"hasNextPage"`
+}
+
+// Result while querying list using graphql
+type PaginationResultUser struct {
+	TotalCount int               `json:"totalCount"`
+	Edges      []*PaginationEdge `json:"edges"`
+	PageInfo   *PaginationInfo   `json:"pageInfo"`
 }
