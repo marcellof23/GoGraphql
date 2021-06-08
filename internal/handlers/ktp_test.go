@@ -3,9 +3,13 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"log"
+	"strconv"
 	"testing"
 
 	"github.com/machinebox/graphql"
+	"github.com/marcellof23/GoGraphql/configs/database"
+	"github.com/marcellof23/GoGraphql/internal/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -147,16 +151,20 @@ func TestUpdateUser(t *testing.T) {
 
 // TestSuccessDeleteUser delete dummy user testing
 func TestSuccessDeleteUser(t *testing.T) {
-	var client = graphql.NewClient(fmt.Sprintf("%s", defaultUrl))
+	err := database.ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var client = graphql.NewClient("http://localhost:8082/query")
 
-	// user := models.User{}
-	// rs := database.DB.Where("nik = ?", "13352").First(&user)
-	// assert.Nil(t, rs.Error)
-	// ids := user.ID
+	user := models.User{}
+	rs := database.DB.First(&user)
+	assert.Nil(t, rs.Error)
+	id := user.ID
 
 	var req = graphql.NewRequest(`
 		mutation {
-			deleteUser(id: "16")
+			deleteUser(id:"` + strconv.Itoa(int(id)) + `")
 		}
 	`)
 
@@ -167,6 +175,8 @@ func TestSuccessDeleteUser(t *testing.T) {
 	if err := client.Run(ctx, req, &respData); err != nil {
 		t.Error(err)
 	}
+	fmt.Print(respData)
+
 	isDeleted := respData["deleteUser"]
 	assert.Equal(t, isDeleted, true, "Must be deleted")
 }
