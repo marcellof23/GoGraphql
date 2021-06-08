@@ -21,14 +21,15 @@ func CreateUserHandler(ctx context.Context, input *model.NewUser) (*models.User,
 		Created_at:    time.Now(),
 	}
 
-	res := database.DB.Create(&user) // pass reference of data to Create
+	// res pass reference of data to Create user
+	res := database.DB.Create(&user)
 
 	if res.Error != nil {
 		return nil, res.Error
 	}
 
 	return &user, nil
-	// newuser return reference object of new created user
+	// user return reference object of new created user
 }
 
 // DeleteUserHandler delete a user by id
@@ -40,7 +41,7 @@ func DeleteUserHandler(ctx context.Context, id int64) (bool, error) {
 	}
 
 	return true, nil
-	// return true if user deleted
+	// return true if user deleted else false
 }
 
 // UpdateUserHandler update a user by id
@@ -55,6 +56,8 @@ func UpdateUserHandler(ctx context.Context, id int64, input *model.NewUser) (*mo
 		Agama:         input.Agama,
 		Updated_at:    time.Now(),
 	}
+
+	// res find the user with id from the input in the database
 	res := database.DB.Model(&models.User{}).Where("id = ?", id).Updates(newuser)
 
 	if res.Error != nil {
@@ -75,4 +78,5 @@ func GetAllUserHandler(ctx context.Context) ([]*models.User, error) {
 	}
 
 	return user, nil
+	// user return all user in the database
 }

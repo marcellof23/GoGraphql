@@ -1,20 +1,52 @@
 scalar Time
 
+# Generic type and input 
+"Pagination is default input Pagination"
+input Pagination {
+	first : Int!
+	offset : Int!
+	after : ID
+	query : String!
+	sort : [String!]!
+}
+
+"Object that is being paginated" 
+type PaginationEdge {
+	node : User! 
+	cursor : ID!
+}
+
+"Information about pagination" 
+type PaginationInfo {
+	endCursor : ID!
+	hasNextPage : Boolean!
+}
+
+"Result while querying list using graphql" 
+type PaginationResultUser {
+	totalCount: Int!
+	edges : [PaginationEdge!]!
+	pageInfo : PaginationInfo!
+}
+
+# End of generic type and input 
+
 "Type for User"
 type User {
 	id : ID!
 	nik: String!
 	nama: String!
 	alamat: String!
-	jenis_kelamin : String!
-    tanggal_lahir: String!
-	agama : String!
-    created_at: Time
+	jenis_kelamin: String!
+  	tanggal_lahir: String!
+	agama: String!
+  	created_at: Time
 	updated_at: Time
 }
 
 type Query {
   user: [User!]!
+  pagination : [Pagination!]!
 }
 
 "Input body for update and input user"
@@ -23,12 +55,20 @@ input NewUser{
 	nama: String!
 	alamat: String!
 	jenis_kelamin: String!
-    tanggal_lahir: String!
+  	tanggal_lahir: String!
 	agama: String!
 }
 
+"CRUD for User"
 type Mutation{
+	"This function creates a new user to database"
 	createUser(input: NewUser): User!
+
+	"This function update a user from database specified by id"
 	updateUser(id: ID!, input: NewUser): User!
+	
+	"This function delete a user from database specified by id"
 	deleteUser(id: ID!): Boolean!
+
+	getPagination(input : Pagination) : PaginationResultUser!
 }

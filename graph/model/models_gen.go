@@ -18,9 +18,9 @@ type NewUser struct {
 
 // Pagination is default input Pagination
 type Pagination struct {
-	First  int      `json:"first"`
-	Offset int      `json:"offset"`
-	After  *int64   `json:"after"`
+	First  int64    `json:"first"`
+	Offset int64    `json:"offset"`
+	After  *string  `json:"after"`
 	Query  string   `json:"query"`
 	Sort   []string `json:"sort"`
 }
@@ -28,18 +28,18 @@ type Pagination struct {
 // Object that is being paginated
 type PaginationEdge struct {
 	Node   *models.User `json:"node"`
-	Cursor int64        `json:"cursor"`
+	Cursor string       `json:"cursor"`
 }
 
 // Information about pagination
 type PaginationInfo struct {
-	EndCursor   int64 `json:"endCursor"`
-	HasNextPage bool  `json:"hasNextPage"`
+	EndCursor   string `json:"endCursor"`
+	HasNextPage bool   `json:"hasNextPage"`
 }
 
 // Result while querying list using graphql
 type PaginationResultUser struct {
-	TotalCount int               `json:"totalCount"`
+	TotalCount int64             `json:"totalCount"`
 	Edges      []*PaginationEdge `json:"edges"`
 	PageInfo   *PaginationInfo   `json:"pageInfo"`
 }

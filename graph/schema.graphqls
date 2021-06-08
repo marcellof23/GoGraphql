@@ -5,7 +5,7 @@ scalar Time
 input Pagination {
 	first : Int!
 	offset : Int!
-	after : ID
+	after : String
 	query : String!
 	sort : [String!]!
 }
@@ -13,12 +13,12 @@ input Pagination {
 "Object that is being paginated" 
 type PaginationEdge {
 	node : User! 
-	cursor : ID!
+	cursor : String!
 }
 
 "Information about pagination" 
 type PaginationInfo {
-	endCursor : ID!
+	endCursor : String!
 	hasNextPage : Boolean!
 }
 
@@ -46,6 +46,7 @@ type User {
 
 type Query {
   user: [User!]!
+  getPagination(input : Pagination!) : PaginationResultUser!
 }
 
 "Input body for update and input user"
@@ -62,8 +63,10 @@ input NewUser{
 type Mutation{
 	"This function creates a new user to database"
 	createUser(input: NewUser): User!
+
 	"This function update a user from database specified by id"
 	updateUser(id: ID!, input: NewUser): User!
+	
 	"This function delete a user from database specified by id"
 	deleteUser(id: ID!): Boolean!
 }

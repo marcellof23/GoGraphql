@@ -14,6 +14,22 @@ type User struct {
 	Updated_at    time.Time
 }
 
+type PaginationResultUser struct {
+	totalCount int64
+	edges      []PaginationEdge
+	pageInfo   PaginationInfo
+}
+
+type PaginationEdge struct {
+	node   User
+	cursor int64
+}
+
+type PaginationInfo struct {
+	endCursor   int64
+	hasNextPage bool
+}
+
 // Tablename is name of the table
 func (User) TableName() string {
 	return "user"

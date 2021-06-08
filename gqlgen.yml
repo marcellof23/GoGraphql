@@ -51,9 +51,13 @@ models:
       - github.com/99designs/gqlgen/graphql.Int32
   Int:
     model:
-      - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int32
   User:
     model: 
       - github.com/marcellof23/GoGraphql/internal/models.User
+      - github.com/marcellof23/GoGraphql/internal/models.PaginationEdge
+      - github.com/marcellof23/GoGraphql/internal/models.PaginationInfo
+      - github.com/marcellof23/GoGraphql/internal/models.PaginationResultUser
+

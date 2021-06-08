@@ -38,6 +38,7 @@ func TestCreateUser(t *testing.T) {
 
 	ctx := context.Background()
 
+	// err to run and catch the response
 	var respData map[string]interface{}
 	if err := client.Run(ctx, req, &respData); err != nil {
 		t.Error(err)
@@ -71,6 +72,7 @@ func TestUpdateUser(t *testing.T) {
 
 	ctx := context.Background()
 
+	// err to run and catch the response
 	var respData map[string]interface{}
 	if err := client.Run(ctx, req, &respData); err != nil {
 		t.Error(err)
@@ -89,8 +91,79 @@ func TestDeleteUser(t *testing.T) {
 
 	ctx := context.Background()
 
+	// err to run and catch the response
 	var respData map[string]interface{}
 	if err := client.Run(ctx, req, &respData); err != nil {
+		t.Error(err)
+	}
+}
+
+// TestPaginationUser test the user pagination
+func TestPaginationUser(t *testing.T) {
+	var client = graphql.NewClient("http://localhost:8082/query")
+
+	// success test with output shown
+	var req = graphql.NewRequest(`
+		query {
+			getPagination(
+				input: { first: 2, offset: 2, query: "ali", sort : ["-id"] }
+			  ) {
+				edges {
+				  node {
+					id
+					nik
+					nama
+					alamat
+					jenis_kelamin
+					tanggal_lahir
+					agama
+				  }
+				  cursor
+				}
+				totalCount
+				pageInfo {
+				  endCursor
+				  hasNextPage
+				}
+			  }
+		}	  
+	`)
+
+	//failed test with output empty
+	var req2 = graphql.NewRequest(`
+		query {
+			getPagination(
+				input: { first: 2, offset: 2, query: "ali", sort : ["-id"] }
+			  ) {
+				edges {
+				  node {
+					id
+					nik
+					nama
+					alamat
+					jenis_kelamin
+					tanggal_lahir
+					agama
+				  }
+				  cursor
+				}
+				totalCount
+				pageInfo {
+				  endCursor
+				  hasNextPage
+				}
+			  }
+		}
+	`)
+
+	ctx := context.Background()
+
+	// err to run and catch the response
+	var respData map[string]interface{}
+	if err := client.Run(ctx, req, &respData); err != nil {
+		t.Error(err)
+	}
+	if err := client.Run(ctx, req2, &respData); err != nil {
 		t.Error(err)
 	}
 }

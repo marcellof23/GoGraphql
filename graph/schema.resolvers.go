@@ -28,6 +28,10 @@ func (r *queryResolver) User(ctx context.Context) ([]*models.User, error) {
 	return handlers.GetAllUserHandler(ctx)
 }
 
+func (r *queryResolver) GetPagination(ctx context.Context, input model.Pagination) (*model.PaginationResultUser, error) {
+	return handlers.GetPaginationHandler(ctx, input)
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
