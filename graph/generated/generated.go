@@ -46,9 +46,10 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Mutation struct {
-		CreateUser func(childComplexity int, input *model.NewUser) int
-		DeleteUser func(childComplexity int, id int64) int
-		UpdateUser func(childComplexity int, id int64, input *model.NewUser) int
+		CreateUser         func(childComplexity int, input *model.NewUser) int
+		DeleteUser         func(childComplexity int, id int64) int
+		GetUserByIDHandler func(childComplexity int, id int64) int
+		UpdateUser         func(childComplexity int, id int64, input *model.NewUser) int
 	}
 
 	PaginationEdge struct {
@@ -89,6 +90,7 @@ type MutationResolver interface {
 	CreateUser(ctx context.Context, input *model.NewUser) (*models.User, error)
 	UpdateUser(ctx context.Context, id int64, input *model.NewUser) (*models.User, error)
 	DeleteUser(ctx context.Context, id int64) (bool, error)
+	GetUserByIDHandler(ctx context.Context, id int64) (*models.User, error)
 }
 type QueryResolver interface {
 	User(ctx context.Context) ([]*models.User, error)
@@ -133,6 +135,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["id"].(int64)), true
+
+	case "Mutation.getUserByIDHandler":
+		if e.complexity.Mutation.GetUserByIDHandler == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_getUserByIDHandler_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.GetUserByIDHandler(childComplexity, args["id"].(int64)), true
 
 	case "Mutation.updateUser":
 		if e.complexity.Mutation.UpdateUser == nil {
@@ -404,14 +418,17 @@ input NewUser{
 
 "CRUD for User"
 type Mutation{
-	"This function creates a new user to database"
+	"createUser function creates a new user to database"
 	createUser(input: NewUser): User!
 
-	"This function update a user from database specified by id"
+	"updateUser function update a user from database specified by id"
 	updateUser(id: ID!, input: NewUser): User!
 	
-	"This function delete a user from database specified by id"
+	"deleteUser function delete a user from database specified by id"
 	deleteUser(id: ID!): Boolean!
+
+	"GetUserByIDHandler function delete a user from database specified by id"
+	getUserByIDHandler(id : ID!) : User!
 }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -436,6 +453,21 @@ func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, 
 }
 
 func (ec *executionContext) field_Mutation_deleteUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int64
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2int64(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_getUserByIDHandler_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int64
@@ -666,6 +698,48 @@ func (ec *executionContext) _Mutation_deleteUser(ctx context.Context, field grap
 	res := resTmp.(bool)
 	fc.Result = res
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_getUserByIDHandler(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_getUserByIDHandler_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().GetUserByIDHandler(rctx, args["id"].(int64))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*models.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋmarcellof23ᚋGoGraphqlᚋinternalᚋmodelsᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PaginationEdge_node(ctx context.Context, field graphql.CollectedField, obj *model.PaginationEdge) (ret graphql.Marshaler) {
@@ -2604,6 +2678,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "deleteUser":
 			out.Values[i] = ec._Mutation_deleteUser(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "getUserByIDHandler":
+			out.Values[i] = ec._Mutation_getUserByIDHandler(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}

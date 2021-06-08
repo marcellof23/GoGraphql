@@ -61,12 +61,15 @@ input NewUser{
 
 "CRUD for User"
 type Mutation{
-	"This function creates a new user to database"
+	"createUser function creates a new user to database"
 	createUser(input: NewUser): User!
 
-	"This function update a user from database specified by id"
+	"updateUser function update a user from database specified by id"
 	updateUser(id: ID!, input: NewUser): User!
 	
-	"This function delete a user from database specified by id"
+	"deleteUser function delete a user from database specified by id"
 	deleteUser(id: ID!): Boolean!
+
+	"GetUserByIDHandler function delete a user from database specified by id"
+	getUserByIDHandler(id : ID!) : User!
 }

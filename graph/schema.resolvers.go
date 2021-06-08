@@ -24,6 +24,10 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, id int64) (bool, erro
 	return handlers.DeleteUserHandler(ctx, id)
 }
 
+func (r *mutationResolver) GetUserByIDHandler(ctx context.Context, id int64) (*models.User, error) {
+	return handlers.GetUserByIDHandler(ctx, id)
+}
+
 func (r *queryResolver) User(ctx context.Context) ([]*models.User, error) {
 	return handlers.GetAllUserHandler(ctx)
 }

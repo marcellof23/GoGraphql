@@ -57,7 +57,4 @@ models:
   User:
     model: 
       - github.com/marcellof23/GoGraphql/internal/models.User
-      - github.com/marcellof23/GoGraphql/internal/models.PaginationEdge
-      - github.com/marcellof23/GoGraphql/internal/models.PaginationInfo
-      - github.com/marcellof23/GoGraphql/internal/models.PaginationResultUser
 
