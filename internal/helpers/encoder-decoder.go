@@ -7,12 +7,12 @@ import (
 	"strconv"
 )
 
-type cursorStruct struct {
+type CursorStruct struct {
 	ID int64
 }
 
 // encodeCursor encode from cursorStruct into string with base64
-func encodeCursor(curs cursorStruct) string {
+func EncodeCursor(curs CursorStruct) string {
 	data := []byte(fmt.Sprintf("%d", curs.ID))
 
 	// sEnc store result of encoded string data
@@ -22,12 +22,12 @@ func encodeCursor(curs cursorStruct) string {
 }
 
 // decodeCursor decode from  string into cursorStruct  with base64
-func decodeCursor(cursor string) (*cursorStruct, error) {
+func DecodeCursor(cursor string) (*CursorStruct, error) {
 
 	// sDec store result of decoded string cursor
 	sDec, err := base64.StdEncoding.DecodeString(cursor)
 	if err != nil {
-		return &cursorStruct{}, err
+		return &CursorStruct{}, err
 	}
 
 	// vals stringify sDec
@@ -36,11 +36,11 @@ func decodeCursor(cursor string) (*cursorStruct, error) {
 	// convert vals from string into integer
 	id, err := strconv.Atoi(vals)
 	if err != nil {
-		return &cursorStruct{}, errors.New("invalid_cursor")
+		return &CursorStruct{}, errors.New("invalid_cursor")
 	}
 
 	// return in cursorStruct from decoded cursor
-	return &cursorStruct{
+	return &CursorStruct{
 		ID: int64(id),
 	}, nil
 }

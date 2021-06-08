@@ -8,46 +8,9 @@ import (
 	sq "github.com/Masterminds/squirrel"
 	"github.com/marcellof23/GoGraphql/configs/database"
 	"github.com/marcellof23/GoGraphql/graph/model"
+	"github.com/marcellof23/GoGraphql/internal/helpers"
 	"github.com/marcellof23/GoGraphql/internal/models"
 )
-
-// type cursorStruct struct {
-// 	ID int64
-// }
-
-// // encodeCursor encode from cursorStruct into string with base64
-// func encodeCursor(curs cursorStruct) string {
-// 	data := []byte(fmt.Sprintf("%d", curs.ID))
-
-// 	// sEnc store result of encoded string data
-// 	sEnc := base64.StdEncoding.EncodeToString((data))
-
-// 	return sEnc
-// }
-
-// // decodeCursor decode from  string into cursorStruct  with base64
-// func decodeCursor(cursor string) (*cursorStruct, error) {
-
-// 	// sDec store result of decoded string cursor
-// 	sDec, err := base64.StdEncoding.DecodeString(cursor)
-// 	if err != nil {
-// 		return &cursorStruct{}, err
-// 	}
-
-// 	// vals stringify sDec
-// 	vals := string(sDec)
-
-// 	// convert vals from string into integer
-// 	id, err := strconv.Atoi(vals)
-// 	if err != nil {
-// 		return &cursorStruct{}, errors.New("invalid_cursor")
-// 	}
-
-// 	// return in cursorStruct from decoded cursor
-// 	return &cursorStruct{
-// 		ID: int64(id),
-// 	}, nil
-// }
 
 // GetPaginationHandler return models of PaginationResultUser with the input arguments from Pagination models
 func GetPaginationHandler(ctx context.Context, input model.Pagination) (*model.PaginationResultUser, error) {
@@ -65,7 +28,7 @@ func GetPaginationHandler(ctx context.Context, input model.Pagination) (*model.P
 		}
 		first = firstRowUser
 	} else {
-		decoded, _ := helpers.decodeCursor(*input.After)
+		decoded, _ := helpers.DecodeCursor(*input.After)
 		first = decoded.ID
 	}
 
@@ -112,8 +75,8 @@ func GetPaginationHandler(ctx context.Context, input model.Pagination) (*model.P
 		if i <= int(input.Offset-1) {
 			continue
 		}
-		cur := helpers.encodeCursor(
-			helpers.cursorStruct{ID: user.ID},
+		cur := helpers.EncodeCursor(
+			helpers.CursorStruct{ID: user.ID},
 		)
 		userEdges = append(userEdges, &model.PaginationEdge{
 			Node:   user,
