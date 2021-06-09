@@ -158,10 +158,11 @@ func TestSuccessDeleteUser(t *testing.T) {
 	var client = graphql.NewClient("http://localhost:8082/query")
 
 	user := models.User{}
-	rs := database.DB.First(&user)
-	assert.Nil(t, rs.Error)
+	database.DB.Model(&models.User{}).First(&user)
+	// database.DB.First(&user)
 	id := user.ID
 
+	fmt.Println(strconv.Itoa(int(id)))
 	var req = graphql.NewRequest(`
 		mutation {
 			deleteUser(id:"` + strconv.Itoa(int(id)) + `")
@@ -210,7 +211,7 @@ func TestPaginationUser(t *testing.T) {
 	var req = graphql.NewRequest(`
 		query {
 			getPagination(
-				input: { first: 2, offset: 2, query: "ali", sort : ["-id"] }
+				input: { first: 2, offset: 1, query: "anta", sort : ["-id"] }
 			  ) {
 				edges {
 				  node {
